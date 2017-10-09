@@ -1,0 +1,69 @@
+SCREEN_WIDTH = 750
+SCREEN_HEIGHT = 300
+
+BORDER_HEIGHT = 30
+
+PLAYER_CONTROL = True
+RENDER = PLAYER_CONTROL or False
+FPS_CAP = PLAYER_CONTROL or False
+
+DISREGARD_SAVE = True
+GENERATION_TO_LOAD = None
+
+# Fitness needed to reach the max difficulty
+JUMP_PENALTY = 7
+
+MIN_DIFF = 0.92
+MAX_DIFF = 0.15
+# ARENA SETTINGS.
+ARENA_WIDTH, ARENA_HEIGHT = SCREEN_WIDTH, SCREEN_HEIGHT
+ARENAS = 20000
+
+START_X = 60
+START_Y = 200
+
+AGENT_WIDTH = 10
+AGENT_HEIGHT = 50
+
+MAX_JUMP_TIME = 40
+MAX_HEIGHT = 2*AGENT_HEIGHT
+MAX_JUMPS = 1
+
+GRAVITY = (2*MAX_HEIGHT)/(MAX_JUMP_TIME**2)
+JUMP_VELOCITY = (2*GRAVITY*MAX_HEIGHT)**0.5
+EARLY_TERMINATION_VELOCITY = (JUMP_VELOCITY**2 + 2*-GRAVITY*(MAX_HEIGHT-10))**0.5
+
+
+SEG_LEN = 25
+SEG_AMOUNT = SCREEN_WIDTH//SEG_LEN
+
+MAX_GAP = 10
+ACCURACY = 2
+OFFSET_DELTA = float((MAX_GAP*SEG_LEN + ACCURACY*2)/(MAX_JUMP_TIME*2))
+
+# Neural Network settings:
+
+#
+NUMBER_OF_LAYERS = 3
+# INPUT LAYER
+#
+# Number of different stimuli each segment should check for. Currently: enemies, bullets
+# different, non visual inputs.
+# Currently:
+# self.y, arena.offset, self.velocity, self.jumps 1 per each segment (except for seg 0 and 1)
+META_NEURONS = 4
+SEGMENT_NEURONS = SEG_AMOUNT - 2
+
+INPUT_NEURONS = META_NEURONS + SEGMENT_NEURONS
+
+# HIDDEN LAYER
+HIDDEN_NEURONS = 15
+
+HIDDEN_NEURONS_2 = 8
+
+# OUTPUT LAYER
+OUTPUT_NEURONS = 1
+
+# relu(x) = min(max(0,x), RELU_CAP)
+RELU_CAP = 6
+
