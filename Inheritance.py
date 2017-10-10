@@ -5,9 +5,8 @@ import numpy as np
 from arena import Arena
 from cython_neural_network import NeuralNetwork
 from system_settings import INPUT_NEURONS, HIDDEN_NEURONS, OUTPUT_NEURONS, ARENAS
-from floor import FloorGenerator
 import copy
-
+from time import time
 BIASES = OUTPUT_NEURONS + HIDDEN_NEURONS
 WEIGHTS = INPUT_NEURONS * HIDDEN_NEURONS + HIDDEN_NEURONS * OUTPUT_NEURONS
 MUT_SPOTS = BIASES + WEIGHTS
@@ -18,36 +17,33 @@ LEFT_OVER = int(ARENAS/100)
 def generate_next_gen(arenas, floor_maker):
     arenas = rank_fitness(arenas)
     networks = []
+    start_time = time()
     for arena in arenas:
-        networks.append(copy.deepcopy(arena.neural_network))
+        networks.append(arena.neural_network)
+    del arenas
     arenas = []
-
+    print("Gathering networks took: ", time() - start_time)
     arenas.append(Arena(floor_maker, copy.deepcopy(networks[0])))
 
+    start_time = time()
+    for i in range(LEFT_OVER):
+        arenas.append(Arena(floor_maker, mutate(mutate(copy.deepcopy(networks[i])))))
+    print("Appending leftovers took: ", time() - start_time)
 
-
-    x = copy.deepcopy(networks[:LEFT_OVER])
-    for nn in x:
-        arenas.append(Arena(floor_maker, mutate(mutate(copy.deepcopy(nn)))))
-
-    y = copy.deepcopy(networks)
+    start_time = time()
     child_nns = []
     for _ in range(int((ARENAS-LEFT_OVER)/2)):
-        children = element_wise_crossover(y)
-        child_nns.append(children[0])
-        child_nns.append(children[1])
+        children = element_wise_crossover(networks)
+        arenas.append(Arena(floor_maker, children[0]))
+        arenas.append(Arena(floor_maker, children[1]))
+    print("Generating children took: ", time() - start_time)
 
-
-    for i in range(ARENAS-LEFT_OVER-1):
-        nn = choice(child_nns)
-        child_nns.remove(nn)
-        arenas.append(Arena(floor_maker, nn))
     return arenas
 
 
 # Higher odds of picking an agent at the start of the list.
 def get_parent(networks):
-    n = sum(n+1 for n in range(len(networks)))
+    n = (len(networks)**2 + len(networks))/2
     x = randint(1, n)
     k = len(networks)
     i = 0
@@ -56,13 +52,6 @@ def get_parent(networks):
         if x > n:
             return networks[i]
         i += 1
-
-
-def get_all_agents(arenas):
-    agents = []
-    for arena in arenas:
-        agents.append(arena.agent)
-    return agents
 
 
 def rank_fitness(arenas):
@@ -83,60 +72,59 @@ def element_wise_crossover(networks):
 
     while p1 is p2 or p1.biases0[0] == p2.biases0[0]:
         p2 = get_parent(networks)
-        #p2 = mutate(p2)
 
     child1 = NeuralNetwork()
     child2 = NeuralNetwork()
 
     for i in range(len(child1.biases0)):
-        if random() < 0.8:
-            child1.biases0[i] = p1.biases0[i]
-            child2.biases0[i] = p2.biases0[i]
+        if random() < 0.7:
+            child1.biases0[i] = p1.biases0[i].copy()
+            child2.biases0[i] = p2.biases0[i].copy()
         else:
-            child1.biases0[i] = p2.biases0[i]
-            child2.biases0[i] = p1.biases0[i]
+            child1.biases0[i] = p2.biases0[i].copy()
+            child2.biases0[i] = p1.biases0[i].copy()
 
     for i in range(len(child1.biases1)):
-        if random() < 0.8:
-            child1.biases1[i] = p1.biases1[i]
-            child2.biases1[i] = p2.biases1[i]
+        if random() < 0.7:
+            child1.biases1[i] = p1.biases1[i].copy()
+            child2.biases1[i] = p2.biases1[i].copy()
         else:
-            child1.biases1[i] = p2.biases1[i]
-            child2.biases1[i] = p1.biases1[i]
+            child1.biases1[i] = p2.biases1[i].copy()
+            child2.biases1[i] = p1.biases1[i].copy()
 
     for i in range(len(child1.biases2)):
-        if random() < 0.8:
-            child1.biases2[i] = p1.biases2[i]
-            child2.biases2[i] = p2.biases2[i]
+        if random() < 0.7:
+            child1.biases2[i] = p1.biases2[i].copy()
+            child2.biases2[i] = p2.biases2[i].copy()
         else:
-            child1.biases2[i] = p2.biases2[i]
-            child2.biases2[i] = p1.biases2[i]
+            child1.biases2[i] = p2.biases2[i].copy()
+            child2.biases2[i] = p1.biases2[i].copy()
 
     for i in range(len(child1.weights0)):
         for j in range(len(child1.weights0[i])):
-            if random() < 0.8:
-                child1.weights0[i][j] = p1.weights0[i][j]
-                child2.weights0[i][j] = p2.weights0[i][j]
+            if random() < 0.7:
+                child1.weights0[i][j] = p1.weights0[i][j].copy()
+                child2.weights0[i][j] = p2.weights0[i][j].copy()
             else:
-                child1.weights0[i][j] = p2.weights0[i][j]
-                child2.weights0[i][j] = p1.weights0[i][j]
+                child1.weights0[i][j] = p2.weights0[i][j].copy()
+                child2.weights0[i][j] = p1.weights0[i][j].copy()
     for i in range(len(child1.weights1)):
         for j in range(len(child1.weights1[i])):
-            if random() < 0.8:
-                child1.weights1[i][j] = p1.weights1[i][j]
-                child2.weights1[i][j] = p2.weights1[i][j]
+            if random() < 0.7:
+                child1.weights1[i][j] = p1.weights1[i][j].copy()
+                child2.weights1[i][j] = p2.weights1[i][j].copy()
             else:
-                child1.weights1[i][j] = p2.weights1[i][j]
-                child2.weights1[i][j] = p1.weights1[i][j]
+                child1.weights1[i][j] = p2.weights1[i][j].copy()
+                child2.weights1[i][j] = p1.weights1[i][j].copy()
 
     for i in range(len(child1.weights2)):
         for j in range(len(child1.weights2[i])):
-            if random() < 0.8:
-                child1.weights2[i][j] = p1.weights2[i][j]
-                child2.weights2[i][j] = p2.weights2[i][j]
+            if random() < 0.7:
+                child1.weights2[i][j] = p1.weights2[i][j].copy()
+                child2.weights2[i][j] = p2.weights2[i][j].copy()
             else:
-                child1.weights2[i][j] = p2.weights2[i][j]
-                child2.weights2[i][j] = p1.weights2[i][j]
+                child1.weights2[i][j] = p2.weights2[i][j].copy()
+                child2.weights2[i][j] = p1.weights2[i][j].copy()
     return mutate(child1), mutate(child2)
 
 

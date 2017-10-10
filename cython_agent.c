@@ -734,12 +734,12 @@ static const char *__pyx_f[] = {
 /*--- Type declarations ---*/
 struct __pyx_obj_12cython_agent_Agent;
 
-/* "cython_agent.pyx":8
- *     image.fill((0, 0, 0))
+/* "cython_agent.pyx":7
+ * 
  * 
  * cdef class Agent:             # <<<<<<<<<<<<<<
- *     cdef public double x, y, velocity
- *     cdef public int jumps
+ *     if RENDER:
+ *         image = pygame.Surface((AGENT_WIDTH, AGENT_HEIGHT))
  */
 struct __pyx_obj_12cython_agent_Agent {
   PyObject_HEAD
@@ -990,6 +990,9 @@ static int __Pyx_SetVtable(PyObject *dict, void *vtable);
 /* SetupReduce.proto */
 static int __Pyx_setup_reduce(PyObject* type_obj);
 
+/* GetNameInClass.proto */
+static PyObject *__Pyx_GetNameInClass(PyObject *nmspace, PyObject *name);
+
 /* CLineInTraceback.proto */
 static int __Pyx_CLineForTraceback(int c_line);
 
@@ -1172,7 +1175,7 @@ static PyObject *__pyx_tuple__2;
 static PyObject *__pyx_tuple__3;
 static PyObject *__pyx_codeobj__4;
 
-/* "cython_agent.pyx":12
+/* "cython_agent.pyx":14
  *     cdef public int jumps
  *     cdef public bint in_air, can_jump
  *     def __init__(self):             # <<<<<<<<<<<<<<
@@ -1204,33 +1207,33 @@ static int __pyx_pf_12cython_agent_5Agent___init__(struct __pyx_obj_12cython_age
   int __pyx_t_3;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "cython_agent.pyx":14
+  /* "cython_agent.pyx":16
  *     def __init__(self):
  *         #pygame.sprite.Sprite.__init__(self)
  *         self.x = START_X             # <<<<<<<<<<<<<<
  *         self.y = START_Y
  *         self.velocity = 0
  */
-  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_START_X); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 14, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_START_X); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 16, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 14, __pyx_L1_error)
+  __pyx_t_2 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 16, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_self->x = __pyx_t_2;
 
-  /* "cython_agent.pyx":15
+  /* "cython_agent.pyx":17
  *         #pygame.sprite.Sprite.__init__(self)
  *         self.x = START_X
  *         self.y = START_Y             # <<<<<<<<<<<<<<
  *         self.velocity = 0
  *         self.in_air = False
  */
-  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_START_Y); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 15, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_START_Y); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 17, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 15, __pyx_L1_error)
+  __pyx_t_2 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 17, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_self->y = __pyx_t_2;
 
-  /* "cython_agent.pyx":16
+  /* "cython_agent.pyx":18
  *         self.x = START_X
  *         self.y = START_Y
  *         self.velocity = 0             # <<<<<<<<<<<<<<
@@ -1239,7 +1242,7 @@ static int __pyx_pf_12cython_agent_5Agent___init__(struct __pyx_obj_12cython_age
  */
   __pyx_v_self->velocity = 0.0;
 
-  /* "cython_agent.pyx":17
+  /* "cython_agent.pyx":19
  *         self.y = START_Y
  *         self.velocity = 0
  *         self.in_air = False             # <<<<<<<<<<<<<<
@@ -1248,20 +1251,20 @@ static int __pyx_pf_12cython_agent_5Agent___init__(struct __pyx_obj_12cython_age
  */
   __pyx_v_self->in_air = 0;
 
-  /* "cython_agent.pyx":18
+  /* "cython_agent.pyx":20
  *         self.velocity = 0
  *         self.in_air = False
  *         self.jumps = MAX_JUMPS             # <<<<<<<<<<<<<<
  *         self.can_jump = True
  * 
  */
-  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_MAX_JUMPS); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 18, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_MAX_JUMPS); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 20, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 18, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 20, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_self->jumps = __pyx_t_3;
 
-  /* "cython_agent.pyx":19
+  /* "cython_agent.pyx":21
  *         self.in_air = False
  *         self.jumps = MAX_JUMPS
  *         self.can_jump = True             # <<<<<<<<<<<<<<
@@ -1270,7 +1273,7 @@ static int __pyx_pf_12cython_agent_5Agent___init__(struct __pyx_obj_12cython_age
  */
   __pyx_v_self->can_jump = 1;
 
-  /* "cython_agent.pyx":12
+  /* "cython_agent.pyx":14
  *     cdef public int jumps
  *     cdef public bint in_air, can_jump
  *     def __init__(self):             # <<<<<<<<<<<<<<
@@ -1290,7 +1293,7 @@ static int __pyx_pf_12cython_agent_5Agent___init__(struct __pyx_obj_12cython_age
   return __pyx_r;
 }
 
-/* "cython_agent.pyx":21
+/* "cython_agent.pyx":23
  *         self.can_jump = True
  * 
  *     cpdef update(self):             # <<<<<<<<<<<<<<
@@ -1314,7 +1317,7 @@ static PyObject *__pyx_f_12cython_agent_5Agent_update(struct __pyx_obj_12cython_
   if (unlikely(__pyx_skip_dispatch)) ;
   /* Check if overridden in Python */
   else if (unlikely(Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0)) {
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_update); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 21, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_update); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 23, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)__pyx_pw_12cython_agent_5Agent_3update)) {
       __Pyx_XDECREF(__pyx_r);
@@ -1330,10 +1333,10 @@ static PyObject *__pyx_f_12cython_agent_5Agent_update(struct __pyx_obj_12cython_
         }
       }
       if (__pyx_t_4) {
-        __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 21, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 23, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       } else {
-        __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 21, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 23, __pyx_L1_error)
       }
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -1345,7 +1348,7 @@ static PyObject *__pyx_f_12cython_agent_5Agent_update(struct __pyx_obj_12cython_
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
-  /* "cython_agent.pyx":22
+  /* "cython_agent.pyx":24
  * 
  *     cpdef update(self):
  *         if self.in_air:  # currently jumping             # <<<<<<<<<<<<<<
@@ -1355,26 +1358,26 @@ static PyObject *__pyx_f_12cython_agent_5Agent_update(struct __pyx_obj_12cython_
   __pyx_t_5 = (__pyx_v_self->in_air != 0);
   if (__pyx_t_5) {
 
-    /* "cython_agent.pyx":23
+    /* "cython_agent.pyx":25
  *     cpdef update(self):
  *         if self.in_air:  # currently jumping
  *             self.velocity -= GRAVITY             # <<<<<<<<<<<<<<
  *             self.y -= self.velocity
  *             if self.y >= START_Y:
  */
-    __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->velocity); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 23, __pyx_L1_error)
+    __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->velocity); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 25, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_GRAVITY); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 23, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_GRAVITY); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 25, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = PyNumber_InPlaceSubtract(__pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 23, __pyx_L1_error)
+    __pyx_t_3 = PyNumber_InPlaceSubtract(__pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 25, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_6 = __pyx_PyFloat_AsDouble(__pyx_t_3); if (unlikely((__pyx_t_6 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 23, __pyx_L1_error)
+    __pyx_t_6 = __pyx_PyFloat_AsDouble(__pyx_t_3); if (unlikely((__pyx_t_6 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 25, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __pyx_v_self->velocity = __pyx_t_6;
 
-    /* "cython_agent.pyx":24
+    /* "cython_agent.pyx":26
  *         if self.in_air:  # currently jumping
  *             self.velocity -= GRAVITY
  *             self.y -= self.velocity             # <<<<<<<<<<<<<<
@@ -1383,38 +1386,38 @@ static PyObject *__pyx_f_12cython_agent_5Agent_update(struct __pyx_obj_12cython_
  */
     __pyx_v_self->y = (__pyx_v_self->y - __pyx_v_self->velocity);
 
-    /* "cython_agent.pyx":25
+    /* "cython_agent.pyx":27
  *             self.velocity -= GRAVITY
  *             self.y -= self.velocity
  *             if self.y >= START_Y:             # <<<<<<<<<<<<<<
  *                 self.y = START_Y
  *                 self.velocity = 0
  */
-    __pyx_t_3 = PyFloat_FromDouble(__pyx_v_self->y); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 25, __pyx_L1_error)
+    __pyx_t_3 = PyFloat_FromDouble(__pyx_v_self->y); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 27, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_START_Y); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 25, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_START_Y); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 27, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_1 = PyObject_RichCompare(__pyx_t_3, __pyx_t_2, Py_GE); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 25, __pyx_L1_error)
+    __pyx_t_1 = PyObject_RichCompare(__pyx_t_3, __pyx_t_2, Py_GE); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 27, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 25, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 27, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     if (__pyx_t_5) {
 
-      /* "cython_agent.pyx":26
+      /* "cython_agent.pyx":28
  *             self.y -= self.velocity
  *             if self.y >= START_Y:
  *                 self.y = START_Y             # <<<<<<<<<<<<<<
  *                 self.velocity = 0
  *                 self.in_air = False
  */
-      __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_START_Y); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 26, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_START_Y); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 28, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_6 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_6 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 26, __pyx_L1_error)
+      __pyx_t_6 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_6 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 28, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __pyx_v_self->y = __pyx_t_6;
 
-      /* "cython_agent.pyx":27
+      /* "cython_agent.pyx":29
  *             if self.y >= START_Y:
  *                 self.y = START_Y
  *                 self.velocity = 0             # <<<<<<<<<<<<<<
@@ -1423,7 +1426,7 @@ static PyObject *__pyx_f_12cython_agent_5Agent_update(struct __pyx_obj_12cython_
  */
       __pyx_v_self->velocity = 0.0;
 
-      /* "cython_agent.pyx":28
+      /* "cython_agent.pyx":30
  *                 self.y = START_Y
  *                 self.velocity = 0
  *                 self.in_air = False             # <<<<<<<<<<<<<<
@@ -1432,20 +1435,20 @@ static PyObject *__pyx_f_12cython_agent_5Agent_update(struct __pyx_obj_12cython_
  */
       __pyx_v_self->in_air = 0;
 
-      /* "cython_agent.pyx":29
+      /* "cython_agent.pyx":31
  *                 self.velocity = 0
  *                 self.in_air = False
  *                 self.jumps = MAX_JUMPS             # <<<<<<<<<<<<<<
  *                 self.can_jump = True
  * 
  */
-      __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_MAX_JUMPS); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 29, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_MAX_JUMPS); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 31, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_7 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_7 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 29, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_7 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 31, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __pyx_v_self->jumps = __pyx_t_7;
 
-      /* "cython_agent.pyx":30
+      /* "cython_agent.pyx":32
  *                 self.in_air = False
  *                 self.jumps = MAX_JUMPS
  *                 self.can_jump = True             # <<<<<<<<<<<<<<
@@ -1454,7 +1457,7 @@ static PyObject *__pyx_f_12cython_agent_5Agent_update(struct __pyx_obj_12cython_
  */
       __pyx_v_self->can_jump = 1;
 
-      /* "cython_agent.pyx":25
+      /* "cython_agent.pyx":27
  *             self.velocity -= GRAVITY
  *             self.y -= self.velocity
  *             if self.y >= START_Y:             # <<<<<<<<<<<<<<
@@ -1463,7 +1466,7 @@ static PyObject *__pyx_f_12cython_agent_5Agent_update(struct __pyx_obj_12cython_
  */
     }
 
-    /* "cython_agent.pyx":22
+    /* "cython_agent.pyx":24
  * 
  *     cpdef update(self):
  *         if self.in_air:  # currently jumping             # <<<<<<<<<<<<<<
@@ -1472,7 +1475,7 @@ static PyObject *__pyx_f_12cython_agent_5Agent_update(struct __pyx_obj_12cython_
  */
   }
 
-  /* "cython_agent.pyx":21
+  /* "cython_agent.pyx":23
  *         self.can_jump = True
  * 
  *     cpdef update(self):             # <<<<<<<<<<<<<<
@@ -1515,7 +1518,7 @@ static PyObject *__pyx_pf_12cython_agent_5Agent_2update(struct __pyx_obj_12cytho
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("update", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_12cython_agent_5Agent_update(__pyx_v_self, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 21, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_12cython_agent_5Agent_update(__pyx_v_self, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 23, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -1532,7 +1535,7 @@ static PyObject *__pyx_pf_12cython_agent_5Agent_2update(struct __pyx_obj_12cytho
   return __pyx_r;
 }
 
-/* "cython_agent.pyx":32
+/* "cython_agent.pyx":34
  *                 self.can_jump = True
  * 
  *     cpdef jump(self):             # <<<<<<<<<<<<<<
@@ -1555,7 +1558,7 @@ static PyObject *__pyx_f_12cython_agent_5Agent_jump(struct __pyx_obj_12cython_ag
   if (unlikely(__pyx_skip_dispatch)) ;
   /* Check if overridden in Python */
   else if (unlikely(Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0)) {
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_jump); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 32, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_jump); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 34, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)__pyx_pw_12cython_agent_5Agent_5jump)) {
       __Pyx_XDECREF(__pyx_r);
@@ -1571,10 +1574,10 @@ static PyObject *__pyx_f_12cython_agent_5Agent_jump(struct __pyx_obj_12cython_ag
         }
       }
       if (__pyx_t_4) {
-        __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 32, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 34, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       } else {
-        __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 32, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 34, __pyx_L1_error)
       }
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -1586,7 +1589,7 @@ static PyObject *__pyx_f_12cython_agent_5Agent_jump(struct __pyx_obj_12cython_ag
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
-  /* "cython_agent.pyx":33
+  /* "cython_agent.pyx":35
  * 
  *     cpdef jump(self):
  *         if self.can_jump:             # <<<<<<<<<<<<<<
@@ -1596,20 +1599,20 @@ static PyObject *__pyx_f_12cython_agent_5Agent_jump(struct __pyx_obj_12cython_ag
   __pyx_t_5 = (__pyx_v_self->can_jump != 0);
   if (__pyx_t_5) {
 
-    /* "cython_agent.pyx":34
+    /* "cython_agent.pyx":36
  *     cpdef jump(self):
  *         if self.can_jump:
  *             self.velocity = JUMP_VELOCITY             # <<<<<<<<<<<<<<
  *             self.in_air = True
  *             self.jumps -= 1
  */
-    __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_JUMP_VELOCITY); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 34, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_JUMP_VELOCITY); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 36, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_6 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_6 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 34, __pyx_L1_error)
+    __pyx_t_6 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_6 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 36, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_v_self->velocity = __pyx_t_6;
 
-    /* "cython_agent.pyx":35
+    /* "cython_agent.pyx":37
  *         if self.can_jump:
  *             self.velocity = JUMP_VELOCITY
  *             self.in_air = True             # <<<<<<<<<<<<<<
@@ -1618,7 +1621,7 @@ static PyObject *__pyx_f_12cython_agent_5Agent_jump(struct __pyx_obj_12cython_ag
  */
     __pyx_v_self->in_air = 1;
 
-    /* "cython_agent.pyx":36
+    /* "cython_agent.pyx":38
  *             self.velocity = JUMP_VELOCITY
  *             self.in_air = True
  *             self.jumps -= 1             # <<<<<<<<<<<<<<
@@ -1627,7 +1630,7 @@ static PyObject *__pyx_f_12cython_agent_5Agent_jump(struct __pyx_obj_12cython_ag
  */
     __pyx_v_self->jumps = (__pyx_v_self->jumps - 1);
 
-    /* "cython_agent.pyx":37
+    /* "cython_agent.pyx":39
  *             self.in_air = True
  *             self.jumps -= 1
  *             self.can_jump = False             # <<<<<<<<<<<<<<
@@ -1636,7 +1639,7 @@ static PyObject *__pyx_f_12cython_agent_5Agent_jump(struct __pyx_obj_12cython_ag
  */
     __pyx_v_self->can_jump = 0;
 
-    /* "cython_agent.pyx":33
+    /* "cython_agent.pyx":35
  * 
  *     cpdef jump(self):
  *         if self.can_jump:             # <<<<<<<<<<<<<<
@@ -1645,7 +1648,7 @@ static PyObject *__pyx_f_12cython_agent_5Agent_jump(struct __pyx_obj_12cython_ag
  */
   }
 
-  /* "cython_agent.pyx":32
+  /* "cython_agent.pyx":34
  *                 self.can_jump = True
  * 
  *     cpdef jump(self):             # <<<<<<<<<<<<<<
@@ -1688,7 +1691,7 @@ static PyObject *__pyx_pf_12cython_agent_5Agent_4jump(struct __pyx_obj_12cython_
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("jump", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_12cython_agent_5Agent_jump(__pyx_v_self, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 32, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_12cython_agent_5Agent_jump(__pyx_v_self, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 34, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -1705,7 +1708,7 @@ static PyObject *__pyx_pf_12cython_agent_5Agent_4jump(struct __pyx_obj_12cython_
   return __pyx_r;
 }
 
-/* "cython_agent.pyx":39
+/* "cython_agent.pyx":41
  *             self.can_jump = False
  * 
  *     def terminate_early(self):             # <<<<<<<<<<<<<<
@@ -1737,37 +1740,37 @@ static PyObject *__pyx_pf_12cython_agent_5Agent_6terminate_early(struct __pyx_ob
   int __pyx_t_6;
   __Pyx_RefNannySetupContext("terminate_early", 0);
 
-  /* "cython_agent.pyx":40
+  /* "cython_agent.pyx":42
  * 
  *     def terminate_early(self):
  *         self.velocity = min(self.velocity, EARLY_TERMINATION_VELOCITY)             # <<<<<<<<<<<<<<
  *         self.can_jump = self.jumps > 0
  * 
  */
-  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_EARLY_TERMINATION_VELOCITY); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 40, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_EARLY_TERMINATION_VELOCITY); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = __pyx_v_self->velocity;
-  __pyx_t_4 = PyFloat_FromDouble(__pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 40, __pyx_L1_error)
+  __pyx_t_4 = PyFloat_FromDouble(__pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = PyObject_RichCompare(__pyx_t_1, __pyx_t_4, Py_LT); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 40, __pyx_L1_error)
+  __pyx_t_5 = PyObject_RichCompare(__pyx_t_1, __pyx_t_4, Py_LT); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 40, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   if (__pyx_t_6) {
     __Pyx_INCREF(__pyx_t_1);
     __pyx_t_3 = __pyx_t_1;
   } else {
-    __pyx_t_5 = PyFloat_FromDouble(__pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 40, __pyx_L1_error)
+    __pyx_t_5 = PyFloat_FromDouble(__pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 42, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __pyx_t_3 = __pyx_t_5;
     __pyx_t_5 = 0;
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_2 = __pyx_PyFloat_AsDouble(__pyx_t_3); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 40, __pyx_L1_error)
+  __pyx_t_2 = __pyx_PyFloat_AsDouble(__pyx_t_3); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v_self->velocity = __pyx_t_2;
 
-  /* "cython_agent.pyx":41
+  /* "cython_agent.pyx":43
  *     def terminate_early(self):
  *         self.velocity = min(self.velocity, EARLY_TERMINATION_VELOCITY)
  *         self.can_jump = self.jumps > 0             # <<<<<<<<<<<<<<
@@ -1776,7 +1779,7 @@ static PyObject *__pyx_pf_12cython_agent_5Agent_6terminate_early(struct __pyx_ob
  */
   __pyx_v_self->can_jump = (__pyx_v_self->jumps > 0);
 
-  /* "cython_agent.pyx":39
+  /* "cython_agent.pyx":41
  *             self.can_jump = False
  * 
  *     def terminate_early(self):             # <<<<<<<<<<<<<<
@@ -1800,7 +1803,7 @@ static PyObject *__pyx_pf_12cython_agent_5Agent_6terminate_early(struct __pyx_ob
   return __pyx_r;
 }
 
-/* "cython_agent.pyx":43
+/* "cython_agent.pyx":45
  *         self.can_jump = self.jumps > 0
  * 
  *     def draw(self, screen):             # <<<<<<<<<<<<<<
@@ -1834,16 +1837,16 @@ static PyObject *__pyx_pf_12cython_agent_5Agent_8draw(struct __pyx_obj_12cython_
   int __pyx_t_8;
   __Pyx_RefNannySetupContext("draw", 0);
 
-  /* "cython_agent.pyx":44
+  /* "cython_agent.pyx":46
  * 
  *     def draw(self, screen):
  *         pygame.init()             # <<<<<<<<<<<<<<
  *         screen.blit(Agent.image, (self.x, self.y-AGENT_HEIGHT))
  * 
  */
-  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_pygame); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 44, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_pygame); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 46, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_init); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 44, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_init); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 46, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = NULL;
@@ -1857,37 +1860,37 @@ static PyObject *__pyx_pf_12cython_agent_5Agent_8draw(struct __pyx_obj_12cython_
     }
   }
   if (__pyx_t_2) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 44, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 46, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   } else {
-    __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 44, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 46, __pyx_L1_error)
   }
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "cython_agent.pyx":45
+  /* "cython_agent.pyx":47
  *     def draw(self, screen):
  *         pygame.init()
  *         screen.blit(Agent.image, (self.x, self.y-AGENT_HEIGHT))             # <<<<<<<<<<<<<<
  * 
  *     cpdef apply(self, jump_pressed):
  */
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_screen, __pyx_n_s_blit); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 45, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_screen, __pyx_n_s_blit); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 47, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_ptype_12cython_agent_Agent), __pyx_n_s_image); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 45, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_ptype_12cython_agent_Agent), __pyx_n_s_image); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 47, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_4 = PyFloat_FromDouble(__pyx_v_self->x); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 45, __pyx_L1_error)
+  __pyx_t_4 = PyFloat_FromDouble(__pyx_v_self->x); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 47, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = PyFloat_FromDouble(__pyx_v_self->y); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 45, __pyx_L1_error)
+  __pyx_t_5 = PyFloat_FromDouble(__pyx_v_self->y); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 47, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_AGENT_HEIGHT); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 45, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_AGENT_HEIGHT); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 47, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_7 = PyNumber_Subtract(__pyx_t_5, __pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 45, __pyx_L1_error)
+  __pyx_t_7 = PyNumber_Subtract(__pyx_t_5, __pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 47, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_6 = PyTuple_New(2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 45, __pyx_L1_error)
+  __pyx_t_6 = PyTuple_New(2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 47, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_GIVEREF(__pyx_t_4);
   PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4);
@@ -1910,7 +1913,7 @@ static PyObject *__pyx_pf_12cython_agent_5Agent_8draw(struct __pyx_obj_12cython_
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_3)) {
     PyObject *__pyx_temp[3] = {__pyx_t_7, __pyx_t_2, __pyx_t_6};
-    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_8, 2+__pyx_t_8); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 45, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_8, 2+__pyx_t_8); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 47, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -1920,7 +1923,7 @@ static PyObject *__pyx_pf_12cython_agent_5Agent_8draw(struct __pyx_obj_12cython_
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
     PyObject *__pyx_temp[3] = {__pyx_t_7, __pyx_t_2, __pyx_t_6};
-    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_8, 2+__pyx_t_8); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 45, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_8, 2+__pyx_t_8); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 47, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -1928,7 +1931,7 @@ static PyObject *__pyx_pf_12cython_agent_5Agent_8draw(struct __pyx_obj_12cython_
   } else
   #endif
   {
-    __pyx_t_4 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 45, __pyx_L1_error)
+    __pyx_t_4 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 47, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     if (__pyx_t_7) {
       __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_7); __pyx_t_7 = NULL;
@@ -1939,14 +1942,14 @@ static PyObject *__pyx_pf_12cython_agent_5Agent_8draw(struct __pyx_obj_12cython_
     PyTuple_SET_ITEM(__pyx_t_4, 1+__pyx_t_8, __pyx_t_6);
     __pyx_t_2 = 0;
     __pyx_t_6 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 45, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 47, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   }
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "cython_agent.pyx":43
+  /* "cython_agent.pyx":45
  *         self.can_jump = self.jumps > 0
  * 
  *     def draw(self, screen):             # <<<<<<<<<<<<<<
@@ -1973,7 +1976,7 @@ static PyObject *__pyx_pf_12cython_agent_5Agent_8draw(struct __pyx_obj_12cython_
   return __pyx_r;
 }
 
-/* "cython_agent.pyx":47
+/* "cython_agent.pyx":49
  *         screen.blit(Agent.image, (self.x, self.y-AGENT_HEIGHT))
  * 
  *     cpdef apply(self, jump_pressed):             # <<<<<<<<<<<<<<
@@ -1998,7 +2001,7 @@ static PyObject *__pyx_f_12cython_agent_5Agent_apply(struct __pyx_obj_12cython_a
   if (unlikely(__pyx_skip_dispatch)) ;
   /* Check if overridden in Python */
   else if (unlikely(Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0)) {
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_apply); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 47, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_apply); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 49, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)__pyx_pw_12cython_agent_5Agent_11apply)) {
       __Pyx_XDECREF(__pyx_r);
@@ -2014,13 +2017,13 @@ static PyObject *__pyx_f_12cython_agent_5Agent_apply(struct __pyx_obj_12cython_a
         }
       }
       if (!__pyx_t_4) {
-        __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_jump_pressed); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 47, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_jump_pressed); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 49, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
       } else {
         #if CYTHON_FAST_PYCALL
         if (PyFunction_Check(__pyx_t_3)) {
           PyObject *__pyx_temp[2] = {__pyx_t_4, __pyx_v_jump_pressed};
-          __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 47, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 49, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
           __Pyx_GOTREF(__pyx_t_2);
         } else
@@ -2028,19 +2031,19 @@ static PyObject *__pyx_f_12cython_agent_5Agent_apply(struct __pyx_obj_12cython_a
         #if CYTHON_FAST_PYCCALL
         if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
           PyObject *__pyx_temp[2] = {__pyx_t_4, __pyx_v_jump_pressed};
-          __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 47, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 49, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
           __Pyx_GOTREF(__pyx_t_2);
         } else
         #endif
         {
-          __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 47, __pyx_L1_error)
+          __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 49, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_5);
           __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_4); __pyx_t_4 = NULL;
           __Pyx_INCREF(__pyx_v_jump_pressed);
           __Pyx_GIVEREF(__pyx_v_jump_pressed);
           PyTuple_SET_ITEM(__pyx_t_5, 0+1, __pyx_v_jump_pressed);
-          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_5, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 47, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_5, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 49, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
         }
@@ -2054,14 +2057,14 @@ static PyObject *__pyx_f_12cython_agent_5Agent_apply(struct __pyx_obj_12cython_a
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
-  /* "cython_agent.pyx":48
+  /* "cython_agent.pyx":50
  * 
  *     cpdef apply(self, jump_pressed):
  *         if jump_pressed and self.jumps > 0:             # <<<<<<<<<<<<<<
  *             self.jump()
  *         elif self.in_air and not jump_pressed:
  */
-  __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_v_jump_pressed); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 48, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_v_jump_pressed); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 50, __pyx_L1_error)
   if (__pyx_t_7) {
   } else {
     __pyx_t_6 = __pyx_t_7;
@@ -2072,18 +2075,18 @@ static PyObject *__pyx_f_12cython_agent_5Agent_apply(struct __pyx_obj_12cython_a
   __pyx_L4_bool_binop_done:;
   if (__pyx_t_6) {
 
-    /* "cython_agent.pyx":49
+    /* "cython_agent.pyx":51
  *     cpdef apply(self, jump_pressed):
  *         if jump_pressed and self.jumps > 0:
  *             self.jump()             # <<<<<<<<<<<<<<
  *         elif self.in_air and not jump_pressed:
  *             self.terminate_early()
  */
-    __pyx_t_1 = ((struct __pyx_vtabstruct_12cython_agent_Agent *)__pyx_v_self->__pyx_vtab)->jump(__pyx_v_self, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 49, __pyx_L1_error)
+    __pyx_t_1 = ((struct __pyx_vtabstruct_12cython_agent_Agent *)__pyx_v_self->__pyx_vtab)->jump(__pyx_v_self, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 51, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "cython_agent.pyx":48
+    /* "cython_agent.pyx":50
  * 
  *     cpdef apply(self, jump_pressed):
  *         if jump_pressed and self.jumps > 0:             # <<<<<<<<<<<<<<
@@ -2093,7 +2096,7 @@ static PyObject *__pyx_f_12cython_agent_5Agent_apply(struct __pyx_obj_12cython_a
     goto __pyx_L3;
   }
 
-  /* "cython_agent.pyx":50
+  /* "cython_agent.pyx":52
  *         if jump_pressed and self.jumps > 0:
  *             self.jump()
  *         elif self.in_air and not jump_pressed:             # <<<<<<<<<<<<<<
@@ -2105,18 +2108,18 @@ static PyObject *__pyx_f_12cython_agent_5Agent_apply(struct __pyx_obj_12cython_a
     __pyx_t_6 = __pyx_t_7;
     goto __pyx_L6_bool_binop_done;
   }
-  __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_v_jump_pressed); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 50, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_v_jump_pressed); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 52, __pyx_L1_error)
   __pyx_t_8 = ((!__pyx_t_7) != 0);
   __pyx_t_6 = __pyx_t_8;
   __pyx_L6_bool_binop_done:;
   if (__pyx_t_6) {
 
-    /* "cython_agent.pyx":51
+    /* "cython_agent.pyx":53
  *             self.jump()
  *         elif self.in_air and not jump_pressed:
  *             self.terminate_early()             # <<<<<<<<<<<<<<
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_terminate_early); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 51, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_terminate_early); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 53, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __pyx_t_3 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -2129,16 +2132,16 @@ static PyObject *__pyx_f_12cython_agent_5Agent_apply(struct __pyx_obj_12cython_a
       }
     }
     if (__pyx_t_3) {
-      __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 51, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 53, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     } else {
-      __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 51, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 53, __pyx_L1_error)
     }
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "cython_agent.pyx":50
+    /* "cython_agent.pyx":52
  *         if jump_pressed and self.jumps > 0:
  *             self.jump()
  *         elif self.in_air and not jump_pressed:             # <<<<<<<<<<<<<<
@@ -2147,7 +2150,7 @@ static PyObject *__pyx_f_12cython_agent_5Agent_apply(struct __pyx_obj_12cython_a
   }
   __pyx_L3:;
 
-  /* "cython_agent.pyx":47
+  /* "cython_agent.pyx":49
  *         screen.blit(Agent.image, (self.x, self.y-AGENT_HEIGHT))
  * 
  *     cpdef apply(self, jump_pressed):             # <<<<<<<<<<<<<<
@@ -2191,7 +2194,7 @@ static PyObject *__pyx_pf_12cython_agent_5Agent_10apply(struct __pyx_obj_12cytho
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("apply", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_12cython_agent_5Agent_apply(__pyx_v_self, __pyx_v_jump_pressed, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 47, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_12cython_agent_5Agent_apply(__pyx_v_self, __pyx_v_jump_pressed, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 49, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -2208,9 +2211,9 @@ static PyObject *__pyx_pf_12cython_agent_5Agent_10apply(struct __pyx_obj_12cytho
   return __pyx_r;
 }
 
-/* "cython_agent.pyx":9
- * 
- * cdef class Agent:
+/* "cython_agent.pyx":11
+ *         image = pygame.Surface((AGENT_WIDTH, AGENT_HEIGHT))
+ *         image.fill((0, 0, 0))
  *     cdef public double x, y, velocity             # <<<<<<<<<<<<<<
  *     cdef public int jumps
  *     cdef public bint in_air, can_jump
@@ -2235,7 +2238,7 @@ static PyObject *__pyx_pf_12cython_agent_5Agent_1x___get__(struct __pyx_obj_12cy
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->x); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 9, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->x); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 11, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -2270,7 +2273,7 @@ static int __pyx_pf_12cython_agent_5Agent_1x_2__set__(struct __pyx_obj_12cython_
   __Pyx_RefNannyDeclarations
   double __pyx_t_1;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 9, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 11, __pyx_L1_error)
   __pyx_v_self->x = __pyx_t_1;
 
   /* function exit code */
@@ -2303,7 +2306,7 @@ static PyObject *__pyx_pf_12cython_agent_5Agent_1y___get__(struct __pyx_obj_12cy
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->y); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 9, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->y); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 11, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -2338,7 +2341,7 @@ static int __pyx_pf_12cython_agent_5Agent_1y_2__set__(struct __pyx_obj_12cython_
   __Pyx_RefNannyDeclarations
   double __pyx_t_1;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 9, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 11, __pyx_L1_error)
   __pyx_v_self->y = __pyx_t_1;
 
   /* function exit code */
@@ -2371,7 +2374,7 @@ static PyObject *__pyx_pf_12cython_agent_5Agent_8velocity___get__(struct __pyx_o
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->velocity); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 9, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->velocity); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 11, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -2406,7 +2409,7 @@ static int __pyx_pf_12cython_agent_5Agent_8velocity_2__set__(struct __pyx_obj_12
   __Pyx_RefNannyDeclarations
   double __pyx_t_1;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 9, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 11, __pyx_L1_error)
   __pyx_v_self->velocity = __pyx_t_1;
 
   /* function exit code */
@@ -2420,8 +2423,8 @@ static int __pyx_pf_12cython_agent_5Agent_8velocity_2__set__(struct __pyx_obj_12
   return __pyx_r;
 }
 
-/* "cython_agent.pyx":10
- * cdef class Agent:
+/* "cython_agent.pyx":12
+ *         image.fill((0, 0, 0))
  *     cdef public double x, y, velocity
  *     cdef public int jumps             # <<<<<<<<<<<<<<
  *     cdef public bint in_air, can_jump
@@ -2447,7 +2450,7 @@ static PyObject *__pyx_pf_12cython_agent_5Agent_5jumps___get__(struct __pyx_obj_
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->jumps); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 10, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->jumps); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -2482,7 +2485,7 @@ static int __pyx_pf_12cython_agent_5Agent_5jumps_2__set__(struct __pyx_obj_12cyt
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_value); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 10, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_value); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 12, __pyx_L1_error)
   __pyx_v_self->jumps = __pyx_t_1;
 
   /* function exit code */
@@ -2496,7 +2499,7 @@ static int __pyx_pf_12cython_agent_5Agent_5jumps_2__set__(struct __pyx_obj_12cyt
   return __pyx_r;
 }
 
-/* "cython_agent.pyx":11
+/* "cython_agent.pyx":13
  *     cdef public double x, y, velocity
  *     cdef public int jumps
  *     cdef public bint in_air, can_jump             # <<<<<<<<<<<<<<
@@ -2523,7 +2526,7 @@ static PyObject *__pyx_pf_12cython_agent_5Agent_6in_air___get__(struct __pyx_obj
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyBool_FromLong(__pyx_v_self->in_air); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 11, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyBool_FromLong(__pyx_v_self->in_air); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 13, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -2558,7 +2561,7 @@ static int __pyx_pf_12cython_agent_5Agent_6in_air_2__set__(struct __pyx_obj_12cy
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_v_value); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 11, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_v_value); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 13, __pyx_L1_error)
   __pyx_v_self->in_air = __pyx_t_1;
 
   /* function exit code */
@@ -2591,7 +2594,7 @@ static PyObject *__pyx_pf_12cython_agent_5Agent_8can_jump___get__(struct __pyx_o
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyBool_FromLong(__pyx_v_self->can_jump); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 11, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyBool_FromLong(__pyx_v_self->can_jump); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 13, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -2626,7 +2629,7 @@ static int __pyx_pf_12cython_agent_5Agent_8can_jump_2__set__(struct __pyx_obj_12
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_v_value); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 11, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_v_value); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 13, __pyx_L1_error)
   __pyx_v_self->can_jump = __pyx_t_1;
 
   /* function exit code */
@@ -3763,17 +3766,17 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "cython_agent.pyx":6
- *     pygame.init()
- *     image = pygame.Surface((AGENT_WIDTH, AGENT_HEIGHT))
- *     image.fill((0, 0, 0))             # <<<<<<<<<<<<<<
- * 
- * cdef class Agent:
+  /* "cython_agent.pyx":10
+ *     if RENDER:
+ *         image = pygame.Surface((AGENT_WIDTH, AGENT_HEIGHT))
+ *         image.fill((0, 0, 0))             # <<<<<<<<<<<<<<
+ *     cdef public double x, y, velocity
+ *     cdef public int jumps
  */
-  __pyx_tuple_ = PyTuple_Pack(3, __pyx_int_0, __pyx_int_0, __pyx_int_0); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 6, __pyx_L1_error)
+  __pyx_tuple_ = PyTuple_Pack(3, __pyx_int_0, __pyx_int_0, __pyx_int_0); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 10, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
-  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_tuple_); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 6, __pyx_L1_error)
+  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_tuple_); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 10, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__2);
   __Pyx_GIVEREF(__pyx_tuple__2);
 
@@ -3948,11 +3951,11 @@ static int __pyx_pymod_exec_cython_agent(PyObject *__pyx_pyinit_module)
   __pyx_vtable_12cython_agent_Agent.update = (PyObject *(*)(struct __pyx_obj_12cython_agent_Agent *, int __pyx_skip_dispatch))__pyx_f_12cython_agent_5Agent_update;
   __pyx_vtable_12cython_agent_Agent.jump = (PyObject *(*)(struct __pyx_obj_12cython_agent_Agent *, int __pyx_skip_dispatch))__pyx_f_12cython_agent_5Agent_jump;
   __pyx_vtable_12cython_agent_Agent.apply = (PyObject *(*)(struct __pyx_obj_12cython_agent_Agent *, PyObject *, int __pyx_skip_dispatch))__pyx_f_12cython_agent_5Agent_apply;
-  if (PyType_Ready(&__pyx_type_12cython_agent_Agent) < 0) __PYX_ERR(0, 8, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_12cython_agent_Agent) < 0) __PYX_ERR(0, 7, __pyx_L1_error)
   __pyx_type_12cython_agent_Agent.tp_print = 0;
-  if (__Pyx_SetVtable(__pyx_type_12cython_agent_Agent.tp_dict, __pyx_vtabptr_12cython_agent_Agent) < 0) __PYX_ERR(0, 8, __pyx_L1_error)
-  if (PyObject_SetAttrString(__pyx_m, "Agent", (PyObject *)&__pyx_type_12cython_agent_Agent) < 0) __PYX_ERR(0, 8, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_12cython_agent_Agent) < 0) __PYX_ERR(0, 8, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_12cython_agent_Agent.tp_dict, __pyx_vtabptr_12cython_agent_Agent) < 0) __PYX_ERR(0, 7, __pyx_L1_error)
+  if (PyObject_SetAttrString(__pyx_m, "Agent", (PyObject *)&__pyx_type_12cython_agent_Agent) < 0) __PYX_ERR(0, 7, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_12cython_agent_Agent) < 0) __PYX_ERR(0, 7, __pyx_L1_error)
   __pyx_ptype_12cython_agent_Agent = &__pyx_type_12cython_agent_Agent;
   /*--- Type import code ---*/
   /*--- Variable import code ---*/
@@ -4054,7 +4057,7 @@ static int __pyx_pymod_exec_cython_agent(PyObject *__pyx_pyinit_module)
  * if RENDER:
  *     import pygame             # <<<<<<<<<<<<<<
  *     pygame.init()
- *     image = pygame.Surface((AGENT_WIDTH, AGENT_HEIGHT))
+ * 
  */
     __pyx_t_2 = __Pyx_Import(__pyx_n_s_pygame, 0, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 3, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
@@ -4065,8 +4068,8 @@ static int __pyx_pymod_exec_cython_agent(PyObject *__pyx_pyinit_module)
  * if RENDER:
  *     import pygame
  *     pygame.init()             # <<<<<<<<<<<<<<
- *     image = pygame.Surface((AGENT_WIDTH, AGENT_HEIGHT))
- *     image.fill((0, 0, 0))
+ * 
+ * 
  */
     __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_pygame); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 4, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
@@ -4093,23 +4096,44 @@ static int __pyx_pymod_exec_cython_agent(PyObject *__pyx_pyinit_module)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "cython_agent.pyx":5
+    /* "cython_agent.pyx":2
+ * from system_settings import START_X, START_Y, AGENT_WIDTH, AGENT_HEIGHT, MAX_JUMPS, GRAVITY, JUMP_VELOCITY, EARLY_TERMINATION_VELOCITY, RENDER
+ * if RENDER:             # <<<<<<<<<<<<<<
  *     import pygame
  *     pygame.init()
- *     image = pygame.Surface((AGENT_WIDTH, AGENT_HEIGHT))             # <<<<<<<<<<<<<<
- *     image.fill((0, 0, 0))
- * 
  */
-    __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_pygame); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 5, __pyx_L1_error)
+  }
+
+  /* "cython_agent.pyx":8
+ * 
+ * cdef class Agent:
+ *     if RENDER:             # <<<<<<<<<<<<<<
+ *         image = pygame.Surface((AGENT_WIDTH, AGENT_HEIGHT))
+ *         image.fill((0, 0, 0))
+ */
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_RENDER); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 8, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 8, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  if (__pyx_t_3) {
+
+    /* "cython_agent.pyx":9
+ * cdef class Agent:
+ *     if RENDER:
+ *         image = pygame.Surface((AGENT_WIDTH, AGENT_HEIGHT))             # <<<<<<<<<<<<<<
+ *         image.fill((0, 0, 0))
+ *     cdef public double x, y, velocity
+ */
+    __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_pygame); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 9, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_Surface); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 5, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_Surface); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 9, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_AGENT_WIDTH); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 5, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_AGENT_WIDTH); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 9, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_AGENT_HEIGHT); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 5, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_AGENT_HEIGHT); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 9, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_6 = PyTuple_New(2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 5, __pyx_L1_error)
+    __pyx_t_6 = PyTuple_New(2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 9, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_GIVEREF(__pyx_t_4);
     PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4);
@@ -4128,14 +4152,14 @@ static int __pyx_pymod_exec_cython_agent(PyObject *__pyx_pyinit_module)
       }
     }
     if (!__pyx_t_5) {
-      __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 5, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 9, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_GOTREF(__pyx_t_2);
     } else {
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_1)) {
         PyObject *__pyx_temp[2] = {__pyx_t_5, __pyx_t_6};
-        __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_1, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 5, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_1, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 9, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -4144,50 +4168,52 @@ static int __pyx_pymod_exec_cython_agent(PyObject *__pyx_pyinit_module)
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_1)) {
         PyObject *__pyx_temp[2] = {__pyx_t_5, __pyx_t_6};
-        __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_1, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 5, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_1, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 9, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       } else
       #endif
       {
-        __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 5, __pyx_L1_error)
+        __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 9, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_5); __pyx_t_5 = NULL;
         __Pyx_GIVEREF(__pyx_t_6);
         PyTuple_SET_ITEM(__pyx_t_4, 0+1, __pyx_t_6);
         __pyx_t_6 = 0;
-        __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_4, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 5, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_4, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 9, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       }
     }
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    if (PyDict_SetItem(__pyx_d, __pyx_n_s_image, __pyx_t_2) < 0) __PYX_ERR(0, 5, __pyx_L1_error)
+    if (PyDict_SetItem((PyObject *)__pyx_ptype_12cython_agent_Agent->tp_dict, __pyx_n_s_image, __pyx_t_2) < 0) __PYX_ERR(0, 9, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    PyType_Modified(__pyx_ptype_12cython_agent_Agent);
 
-    /* "cython_agent.pyx":6
- *     pygame.init()
- *     image = pygame.Surface((AGENT_WIDTH, AGENT_HEIGHT))
- *     image.fill((0, 0, 0))             # <<<<<<<<<<<<<<
- * 
- * cdef class Agent:
+    /* "cython_agent.pyx":10
+ *     if RENDER:
+ *         image = pygame.Surface((AGENT_WIDTH, AGENT_HEIGHT))
+ *         image.fill((0, 0, 0))             # <<<<<<<<<<<<<<
+ *     cdef public double x, y, velocity
+ *     cdef public int jumps
  */
-    __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_image); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 6, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_GetNameInClass((PyObject *)__pyx_ptype_12cython_agent_Agent, __pyx_n_s_image); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 10, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_fill); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 6, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_fill); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 10, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_tuple__2, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 6, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_tuple__2, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 10, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "cython_agent.pyx":2
- * from system_settings import START_X, START_Y, AGENT_WIDTH, AGENT_HEIGHT, MAX_JUMPS, GRAVITY, JUMP_VELOCITY, EARLY_TERMINATION_VELOCITY, RENDER
- * if RENDER:             # <<<<<<<<<<<<<<
- *     import pygame
- *     pygame.init()
+    /* "cython_agent.pyx":8
+ * 
+ * cdef class Agent:
+ *     if RENDER:             # <<<<<<<<<<<<<<
+ *         image = pygame.Surface((AGENT_WIDTH, AGENT_HEIGHT))
+ *         image.fill((0, 0, 0))
  */
   }
 
@@ -5227,6 +5253,24 @@ GOOD:
     Py_XDECREF(setstate);
     Py_XDECREF(setstate_cython);
     return ret;
+}
+
+/* GetNameInClass */
+    static PyObject *__Pyx_GetGlobalNameAfterAttributeLookup(PyObject *name) {
+    __Pyx_PyThreadState_declare
+    __Pyx_PyThreadState_assign
+    if (unlikely(!__Pyx_PyErr_ExceptionMatches(PyExc_AttributeError)))
+        return NULL;
+    __Pyx_PyErr_Clear();
+    return __Pyx_GetModuleGlobalName(name);
+}
+static PyObject *__Pyx_GetNameInClass(PyObject *nmspace, PyObject *name) {
+    PyObject *result;
+    result = __Pyx_PyObject_GetAttrStr(nmspace, name);
+    if (!result) {
+        result = __Pyx_GetGlobalNameAfterAttributeLookup(name);
+    }
+    return result;
 }
 
 /* CLineInTraceback */

@@ -1,5 +1,4 @@
 from cython_floor_gen import FloorGenerator
-from floor import FloorGenerator as PythonFloorGenerator
 from arena import Arena
 from neural_network import NeuralNetwork as PythonNeuralNetwork
 from cython_neural_network import NeuralNetwork

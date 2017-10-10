@@ -1,12 +1,10 @@
 from system_settings import SCREEN_WIDTH, SCREEN_HEIGHT, \
     ARENAS, BORDER_HEIGHT, RENDER, FPS_CAP, DISREGARD_SAVE, GENERATION_TO_LOAD, PLAYER_CONTROL
-from agent import Agent
 import pickle
 import pathlib
 from arena import Arena
-import sys
 
-from neural_network import NeuralNetwork
+from cython_neural_network import NeuralNetwork
 from cython_floor_gen import FloorGenerator
 
 import Inheritance
@@ -91,8 +89,9 @@ def main():
                 log.write("{}, {}\n".format(generation, floor_maker.get_score()))
 
             floor_maker = FloorGenerator(seed=seed, starting_diff=0)
+            start_time = time()
             arenas = Inheritance.generate_next_gen(arenas + dead_arenas, floor_maker)
-
+            print("Inheritance took ", (time() - start_time))
     # end main game loop
     save_neural_networks(to_folder=None)
     pygame.quit()
@@ -207,6 +206,7 @@ def load_generation(folder_number=None):
 
 
 def play():
+    from cython_agent import Agent
     global floor_maker
     current_arena = 0
     # main game loop
@@ -227,6 +227,8 @@ def play():
             render(current_arena)
 
         for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                gen_running = False
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
                     arenas[0].agent.jump()

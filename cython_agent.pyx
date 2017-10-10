@@ -2,10 +2,12 @@ from system_settings import START_X, START_Y, AGENT_WIDTH, AGENT_HEIGHT, MAX_JUM
 if RENDER:
     import pygame
     pygame.init()
-    image = pygame.Surface((AGENT_WIDTH, AGENT_HEIGHT))
-    image.fill((0, 0, 0))
+
 
 cdef class Agent:
+    if RENDER:
+        image = pygame.Surface((AGENT_WIDTH, AGENT_HEIGHT))
+        image.fill((0, 0, 0))
     cdef public double x, y, velocity
     cdef public int jumps
     cdef public bint in_air, can_jump
