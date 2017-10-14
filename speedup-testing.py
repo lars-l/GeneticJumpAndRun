@@ -1,8 +1,8 @@
 from cython_floor_gen import FloorGenerator
 from arena import Arena
-from neural_network import NeuralNetwork as PythonNeuralNetwork
 from cython_neural_network import NeuralNetwork
 import cProfile
+import Inheritance
 
 def test():
     f = FloorGenerator(1111)
@@ -20,7 +20,16 @@ def floor_maker_test():
     for _ in range(3000000):
         f.next_frame()
 
+
+def inherit_test():
+    f = FloorGenerator(1)
+    arenas = [Arena(f, NeuralNetwork()) for _ in range(50000)]
+    arenas = Inheritance.generate_next_gen(arenas, f)
+
+
+
+
 if __name__ == "__main__":
     print("Best python score was: 1.967")
-
-    cProfile.run('test()', sort='cumulative')
+    print(NeuralNetwork().weights0[0])
+    cProfile.run('inherit_test()', sort='cumulative')

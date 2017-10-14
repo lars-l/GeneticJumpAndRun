@@ -11,10 +11,9 @@ import Inheritance
 from time import time
 import random
 
-seed = 0
+seed = 100
 arenas = list()
 generation = 0
-rng = random.Random()
 floor_maker = FloorGenerator(seed=seed)
 dead_arenas = list()
 
@@ -59,6 +58,7 @@ def main():
         start_time = time()
         while gen_running:
             floor_maker.next_frame()
+
             for arena in arenas:
                 if arena.running:
                     arena.next_frame()
@@ -88,7 +88,7 @@ def main():
             with open("data.txt", "a") as log:
                 log.write("{}, {}\n".format(generation, floor_maker.get_score()))
 
-            floor_maker = FloorGenerator(seed=seed, starting_diff=0)
+            floor_maker = FloorGenerator(seed=random.random()*1000, starting_diff=0)
             start_time = time()
             arenas = Inheritance.generate_next_gen(arenas + dead_arenas, floor_maker)
             print("Inheritance took ", (time() - start_time))

@@ -37,6 +37,8 @@ cdef class FloorGenerator:
     cpdef next_frame(self):
         if self.offset >= SEG_LEN:
             self.score += 1
+            if self.score % 100 == 0 and self.score > 0:
+                print(self.score)
             self.floor.pop(0)
             if self.rng.random() > self.difficulty() and self.current_gap < 10:
                 self.floor.append(0.0)
