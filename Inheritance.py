@@ -43,18 +43,6 @@ def generate_next_gen(arenas, floor_maker):
     return arenas
 
 
-# Higher odds of picking an agent at the start of the list.
-def roulette_selection(networks):
-    n = (len(networks)**2 + len(networks))/2
-    x = randint(1, n)
-    k = len(networks)
-    i = 0
-    while n > 0:
-        n -= (k-i)
-        if x > n:
-            return networks[i]
-        i += 1
-
 def get_parent(networks):
     for _ in range(int(np.log2(len(networks)))):
         if random() < 0.8:
@@ -62,10 +50,6 @@ def get_parent(networks):
         else:
             networks = networks[len(networks)//2:len(networks)]
     return networks[0]
-
-
-
-
 
 
 def rank_fitness(arenas):
