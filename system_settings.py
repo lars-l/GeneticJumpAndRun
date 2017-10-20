@@ -7,7 +7,7 @@ PLAYER_CONTROL = False
 RENDER = PLAYER_CONTROL or False
 FPS_CAP = PLAYER_CONTROL or False
 
-DISREGARD_SAVE = False
+DISREGARD_SAVE = True
 GENERATION_TO_LOAD = None
 
 # Fitness needed to reach the max difficulty

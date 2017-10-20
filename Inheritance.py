@@ -1,6 +1,4 @@
- #  from random import randint, random
-from numpy.random import random, choice
-from random import randint
+from numpy.random import random
 import numpy as np
 from arena import Arena
 from cython_neural_network import NeuralNetwork
@@ -59,6 +57,7 @@ def rank_fitness(arenas):
 def print_stats(arenas):
     print("The best fitness was: {}, the worst {}".format(arenas[0].fitness, arenas[-1].fitness))
     print("The median agent had a fitness of {}".format(arenas[ARENAS//2].fitness))
+
 
 def cull_the_meek(arenas):
     return arenas[:int(ARENAS*0.1)]
@@ -128,21 +127,6 @@ def element_wise_crossover(networks):
                 child2.weights2[i][j] = p1.weights2[i][j]
     return mutate(child1), mutate(child2)
 
-def segment_wise_crossover(networks):
-    p1 = get_parent(networks)
-    p2 = get_parent(networks)
-
-    while p1 is p2 or p1.biases0[0] == p2.biases0[0]:
-        p2 = get_parent(networks)
-
-    child1 = NeuralNetwork()
-    child2 = NeuralNetwork()
-
-    print(p1.biases0)
-    a = p1.biases0.tostring()
-    print(a)
-    k = np.fromstring(a, dtype=float)
-    print(k)
 
 def mutate(nn):
     # previous mutation rate =1/BIASES and 1/WEIGHTS
@@ -172,7 +156,5 @@ def mutate(nn):
     return nn
 
 
-
 if __name__ == "__main__":
-    t = [NeuralNetwork(1), NeuralNetwork(2)]
-    segment_wise_crossover(t)
+    pass

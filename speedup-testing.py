@@ -30,6 +30,4 @@ def inherit_test():
 
 
 if __name__ == "__main__":
-    print("Best python score was: 1.967")
-    print(NeuralNetwork().weights0[0])
-    cProfile.run('inherit_test()', sort='cumulative')
+    cProfile.run('test()', sort="cumulative")

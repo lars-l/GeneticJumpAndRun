@@ -1,12 +1,12 @@
 from system_settings import SEG_LEN, SEG_AMOUNT,  OFFSET_DELTA, MAX_DIFF, MIN_DIFF, START_Y, RENDER, SEGMENT_NEURONS
 from random import random, Random
-if RENDER:
-    import pygame
-    pygame.init()
+import pygame
+pygame.init()
 
 cdef class FloorGenerator:
     cdef int current_gap
     cdef public int score
+    cdef public double diff
     cdef double offset
     cdef object rng
     cdef readonly object floor
@@ -20,8 +20,9 @@ cdef class FloorGenerator:
         self.offset = 0
         self.floor = [1.0 for _ in range(5)]
         self.current_gap = 0
+        self.diff = calc_difficulty(self.score)
         for _ in range(SEG_AMOUNT):
-            if self.rng.random() > self.difficulty() and self.current_gap < 7:
+            if self.rng.random() > self.diff and self.current_gap <= 5:
                 self.floor.append(0.0)
                 self.current_gap += 1
             else:
@@ -37,10 +38,9 @@ cdef class FloorGenerator:
     cpdef next_frame(self):
         if self.offset >= SEG_LEN:
             self.score += 1
-            if self.score % 100 == 0 and self.score > 0:
-                print(self.score)
+            self.diff = calc_difficulty(self.score)
             self.floor.pop(0)
-            if self.rng.random() > self.difficulty() and self.current_gap < 10:
+            if self.rng.random() > self.diff and self.current_gap <= 5:
                 self.floor.append(0.0)
                 self.current_gap += 1
             else:
@@ -50,10 +50,8 @@ cdef class FloorGenerator:
         else:
             self.offset += OFFSET_DELTA
 
-    cdef double difficulty(self):
-        # return min(MAX_DIFF, (MIN_DIFF - (1 - (1/(1+score/9999)))))
-        # return 1 - (1 - (1 / (1 + score / 9999)))
-        return max(MAX_DIFF, min(MIN_DIFF, (1 / (1 + (self.score) / 7500))-0.07))
+
+
 
     def draw(self, game_window):
         for i, x in enumerate(self.floor):
@@ -79,3 +77,7 @@ cdef class FloorGenerator:
         if self.offset < 15:
             return self.floor[2] == 0 and self.floor[3] == 0
 
+
+cdef double calc_difficulty(x):
+    cdef double k = -(77.0/1500000.0)*x + 0.92
+    return max(MAX_DIFF, min(MIN_DIFF, k))
