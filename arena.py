@@ -1,4 +1,4 @@
-from system_settings import SEG_LEN, MAX_JUMPS, JUMP_VELOCITY, MAX_HEIGHT, SEGMENT_NEURONS, START_Y
+from system_settings import SEG_LEN, MAX_JUMPS, JUMP_VELOCITY, MAX_HEIGHT, START_Y, EARLY_TERMINATION_VELOCITY
 from cython_agent import Agent
 
 
@@ -26,13 +26,11 @@ class Arena:
         self.neural_network = network
 
     def apply_network(self):
-        if self.agent.velocity >= 0 and self.agent.jumps > 0:
+        if self.agent.in_air and self.agent.velocity <= EARLY_TERMINATION_VELOCITY:
+            return
+        else:
             inp = self.calculate_input_neurons()
-            #print("floor: ", len(self.floor_maker.floor[2:SEGMENT_NEURONS+2]))
             jump = self.neural_network.calculate_output_neurons(self.floor_maker.get_segment_neurons(), inp)
-            #if jump:
-                #if self.floor_maker.score < 2000:
-                    #self.jump_penalty += JUMP_PENALTY/160
             self.agent.apply(jump)
 
     def calculate_input_neurons(self):

@@ -22,14 +22,14 @@ cdef class NeuralNetwork:
     def __init__(self, seed=None):
         if seed is not None:
             np.random.seed(seed)
-        self.biases0 = 5 * np.random.randn(HIDDEN_NEURONS-META_NEURONS, 1)
-        self.biases1 = 5 * np.random.randn(HIDDEN_NEURONS_2, 1)
-        self.biases2 = 5 * np.random.randn(OUTPUT_NEURONS, 1)
+        self.biases0 = 50 * np.random.randn(HIDDEN_NEURONS-META_NEURONS, 1)
+        self.biases1 = 50 * np.random.randn(HIDDEN_NEURONS_2, 1)
+        self.biases2 = 50 * np.random.randn(OUTPUT_NEURONS, 1)
 
 
-        self.weights0 = 5 * np.random.randn(HIDDEN_NEURONS-META_NEURONS, SEGMENT_NEURONS)
-        self.weights1 = 5 * np.random.randn(HIDDEN_NEURONS_2, HIDDEN_NEURONS)
-        self.weights2 = 5 * np.random.randn(OUTPUT_NEURONS, HIDDEN_NEURONS_2)
+        self.weights0 = 50 * np.random.randn(HIDDEN_NEURONS-META_NEURONS, SEGMENT_NEURONS)
+        self.weights1 = 50 * np.random.randn(HIDDEN_NEURONS_2, HIDDEN_NEURONS)
+        self.weights2 = 50 * np.random.randn(OUTPUT_NEURONS, HIDDEN_NEURONS_2)
 
 
     @cython.boundscheck(False) # turn off bounds-checking for entire function
@@ -44,23 +44,5 @@ cdef class NeuralNetwork:
         a = relu(np.dot(self.weights2, a) + self.biases2)
         return a[0][0] >= 3
 
-def sigmoid(x):
-    return 1/(1+np.exp(-x))
-
-
-def softsign(x):
-    return x/(1.0 + abs(x))
-
-
 def relu(x):
     return np.maximum(x, 0)
-
-
-if __name__ == "__main__":
-    k = NeuralNetwork()
-    inp = [0.0 for _ in range(INPUT_NEURONS)]
-    print(len(inp))
-    print(len(inp[:SEGMENT_NEURONS]))
-    print(len(inp[SEGMENT_NEURONS:SEGMENT_NEURONS+META_NEURONS]))
-
-    print(k.calc_new(inp[:SEGMENT_NEURONS], inp[SEGMENT_NEURONS:SEGMENT_NEURONS+META_NEURONS]))

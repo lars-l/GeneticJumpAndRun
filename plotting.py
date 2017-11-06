@@ -17,11 +17,11 @@ def animate(i):
             xar.append(int(x))
             yar.append(int(y))
     ax1.clear()
-    ax1.plot(xar, yar)
-    #if len(xar) >= 2:
-        #z = numpy.polyfit(xar, yar, 1)
-        #p = numpy.poly1d(z)
-        #plt.plot(xar, p(xar), "r--")
+    ax1.scatter(xar, yar)
+    if len(xar) >= 2:
+        z = numpy.polyfit(xar, yar, 1)
+        p = numpy.poly1d(z)
+        plt.plot(xar, p(xar), "r--")
         #seg = 20
         #for i in range(len(yar)//seg):
             #z = numpy.polyfit(xar[i*seg:(i+1)*seg], yar[i*seg:(i+1)*seg], 1)

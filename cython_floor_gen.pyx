@@ -18,7 +18,8 @@ cdef class FloorGenerator:
         else:
             self.rng = Random()
         self.offset = 0
-        self.floor = [1.0 for _ in range(5)]
+        self.floor = [1.0 for _ in range(3)]
+        self.floor.append(0.0)
         self.current_gap = 0
         self.diff = calc_difficulty(self.score)
         for _ in range(SEG_AMOUNT):
@@ -79,5 +80,5 @@ cdef class FloorGenerator:
 
 
 cdef double calc_difficulty(x):
-    cdef double k = -(77.0/1500000.0)*x + 0.92
+    cdef double k = -(((MIN_DIFF-MAX_DIFF)*100.0)/1500000.0)*x + MIN_DIFF
     return max(MAX_DIFF, min(MIN_DIFF, k))

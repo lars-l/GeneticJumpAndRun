@@ -5,14 +5,29 @@ import cProfile
 import Inheritance
 
 def test():
-    f = FloorGenerator(1111)
-    arenas = [Arena(f, NeuralNetwork()) for _ in range(1000)]
+    floor_maker = FloorGenerator(1111)
+    arenas = [Arena(floor_maker, NeuralNetwork()) for _ in range(50000)]
+    dead_arenas = []
     gen_running = True
-    for i in range(1000):
-        f.next_frame()
+    active_arenas = len(arenas)
+    while gen_running:
+        floor_maker.next_frame()
+
+        score = floor_maker.get_score()
+        if score > 15000:
+            gen_running = False
+            print("Score of 15000 reached! GG")
+
         for arena in arenas:
-            arena.next_frame()
-            arena.apply_network()
+            if arena.running:
+                arena.next_frame()
+                arena.apply_network()
+            else:
+                dead_arenas.append(arena)
+                arenas.remove(arena)
+                active_arenas -= 1
+
+        gen_running = active_arenas > 0
 
 
 def floor_maker_test():
@@ -23,11 +38,11 @@ def floor_maker_test():
 
 def inherit_test():
     f = FloorGenerator(1)
-    arenas = [Arena(f, NeuralNetwork()) for _ in range(50000)]
+    arenas = [Arena(f, NeuralNetwork()) for _ in range(100000)]
     arenas = Inheritance.generate_next_gen(arenas, f)
 
 
 
 
 if __name__ == "__main__":
-    cProfile.run('test()', sort="cumulative")
+    cProfile.run('inherit_test()', sort="cumulative")

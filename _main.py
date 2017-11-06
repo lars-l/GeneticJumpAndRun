@@ -8,12 +8,10 @@ import Inheritance
 from time import time
 import random
 
-seed = 100
 arenas = list()
 generation = 0
-floor_maker = FloorGenerator(seed=seed)
 dead_arenas = list()
-
+floor_maker = None
 
 if RENDER:
     import pygame
@@ -42,37 +40,52 @@ def main():
     program_active = True
     arenas, generation = init_arenas()
     floor_maker = arenas[0].floor_maker
+
     while program_active:
         dead_arenas = []
-        generation += 1
         print("\nStarting generation {}".format(generation))
 
 
-        if generation % 30 == 0:
-            if generation != GENERATION_TO_LOAD:
-                save_generation(arenas, generation, to_folder=generation)
 
         active_arenas = len(arenas)
         gen_running = True
+        printed = False
         start_time = time()
         while gen_running:
             floor_maker.next_frame()
 
-            if floor_maker.get_score() > 15000:
-                gen_running = False
-                print("Score of 10000 reached! GG")
+            score = floor_maker.get_score()
+
+            if not printed and score % 100 == 0:
+                print("Current score is ", score, ", ", len(arenas), " active arenas")
+                printed = True
+            elif printed and score % 100 == 1:
+                printed = False
+
+            calc_needed = False
+            for i in range(6):
+                if floor_maker.floor[1+i] == 0.0:
+                    calc_needed = True
+
 
             for arena in arenas:
                 if arena.running:
                     arena.next_frame()
-                    arena.apply_network()
+                    if calc_needed:
+                        arena.apply_network()
                 else:
                     dead_arenas.append(arena)
                     arenas.remove(arena)
                     active_arenas -= 1
 
-            current_arena, gen_running = find_active_arena(current_arena, gen_running)
+            gen_running = active_arenas > 0
+
+            if score > 15000:
+                gen_running = False
+                print("Score of 15000 reached! GG")
+
             if RENDER:
+                current_arena, gen_running = find_active_arena(current_arena, gen_running)
                 render(current_arena)
 
 
@@ -80,11 +93,17 @@ def main():
         if program_active:  # = program wasn't manually exited previously
             log_data(generation, floor_maker.get_score())
 
-            floor_maker = FloorGenerator(seed=random.random()*1000, starting_diff=0)
+            starting_score = max(floor_maker.get_score() - 750, 0)
+            floor_maker = FloorGenerator(seed=random.random()*1000, starting_diff=starting_score)
             start_time = time()
             arenas = Inheritance.generate_next_gen(arenas + dead_arenas, floor_maker)
             print("Inheritance took ", (time() - start_time))
+
+        generation += 1
+        if generation % 30 == 0:
+            save_generation(arenas, generation, to_folder=generation)
         save_generation(arenas, generation)
+
     # end main game loop
     save_generation(arenas, generation, to_folder=None)
     pygame.quit()
@@ -144,13 +163,14 @@ def play():
     global floor_maker
     current_arena = 0
     # main game loop
-
+    floor_maker = FloorGenerator(seed=100)
     player = Agent()
     arena = Arena(floor_maker)
     arena.set_agent(player)
     arenas.append(arena)
-    #for _ in range(15000):
-        #floor_maker.next_frame()
+
+    for _ in range(1000000):
+        floor_maker.next_frame()
     gen_running = True
     while gen_running:
         floor_maker.next_frame()
@@ -187,7 +207,7 @@ if __name__ == "__main__":
             play()
         else:
             main()
-    except Exception:
+    except KeyboardInterrupt:
         print("Starting to save neural networks...")
         save_generation(arenas, generation)
 
