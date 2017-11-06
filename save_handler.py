@@ -55,6 +55,7 @@ def load_generation(folder_number=None):
         arena.floor_maker = FloorGenerator(starting_diff=2350)
     return arenas, generation
 
+
 def init_arenas():
     if not DISREGARD_SAVE:
         try:
@@ -68,13 +69,13 @@ def init_arenas():
             else:
                 print("Successfully loaded generation from folder generation{}".format(GENERATION_TO_LOAD))
 
-            return arenas, generation
-
+            return arenas, generation, arenas[0].floor_maker
         except IOError:
             if GENERATION_TO_LOAD is None:
                 print("Failed to load generation from folder 'last_save'")
             else:
                 print("Failed to load generation from folder generation{}".format(GENERATION_TO_LOAD))
+
     print("Starting from scratch...")
     generation = 0
 
@@ -82,7 +83,7 @@ def init_arenas():
     floor_maker = FloorGenerator()
     for _ in range(ARENAS):
         arenas.append(Arena(floor_maker, NeuralNetwork()))
-    return arenas, generation
+    return arenas, generation, floor_maker
 
 
 

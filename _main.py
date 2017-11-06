@@ -13,6 +13,7 @@ generation = 0
 dead_arenas = list()
 floor_maker = None
 active_arenas = -1
+printed = False
 
 if RENDER:
     import pygame
@@ -30,20 +31,12 @@ if RENDER:
 
 
 def main():
-    global arenas
-    global generation
-    global floor_maker
-    global seed
-    global dead_arenas
-    current_arena = 0
+    global arenas, generation, floor_maker, dead_arenas, printed, active_arenas
+
+    arenas, generation, floor_maker = init_arenas()
 
 
-    program_active = True
-    arenas, generation = init_arenas()
-    floor_maker = arenas[0].floor_maker
-
-    while program_active:
-        del dead_arenas
+    while True:
         dead_arenas = []
         print("\nStarting generation {}".format(generation))
 
@@ -54,44 +47,51 @@ def main():
 
         # initialize/reset local scores to track current generation
         active_arenas = len(arenas)
-        gen_running = True
         start_time = time()
 
+        # Perform one generation
+        # --main loop doing most of the work--
         while active_arenas > 0:
             floor_maker.next_frame()
 
-            score = floor_maker.get_score()
+            advance_arenas_by_one_frame()
 
-            if not printed and score % 100 == 0:
-                print("Current score is ", score, ", ", len(arenas), " active arenas")
-                printed = True
-            elif printed and score % 100 == 1:
-                printed = False
-
-            if RENDER:
-                current_arena, gen_running = find_active_arena(current_arena, gen_running)
-                render(current_arena)
-
+            show_current_progress()
 
         print("generation took ", (time()-start_time))
-        if program_active:  # = program wasn't manually exited previously
-            log_data(generation, floor_maker.get_score())
 
-            starting_score = max(floor_maker.get_score() - 750, 0)
-            floor_maker = FloorGenerator(seed=random.random()*1000, starting_diff=starting_score)
-            start_time = time()
-            arenas = Inheritance.generate_next_gen(arenas + dead_arenas, floor_maker)
-            print("Inheritance took ", (time() - start_time))
+        generate_next_generation()
 
-        generation += 1
-        if generation % 30 == 0:
-            save_generation(arenas, generation, to_folder=generation)
-        save_generation(arenas, generation)
 
-    # end main game loop
-    save_generation(arenas, generation, to_folder=None)
-    pygame.quit()
-    quit()
+def generate_next_generation():
+    global floor_maker, arenas, generation
+    log_data(generation, floor_maker.get_score())
+
+    starting_score = max(floor_maker.get_score() - 750, 0)
+    floor_maker = FloorGenerator(seed=random.random() * 1000, starting_diff=starting_score)
+    start_time = time()
+    arenas = Inheritance.generate_next_gen(arenas + dead_arenas, floor_maker)
+    print("Inheritance took ", (time() - start_time))
+
+    generation += 1
+    if generation % 30 == 0:
+        save_generation(arenas, generation, to_folder=generation)
+    save_generation(arenas, generation)
+
+
+def show_current_progress():
+    global printed
+    score = floor_maker.get_score()
+
+    if not printed and score % 100 == 0:
+        print("Current score is ", score, ", ", len(arenas), " active arenas")
+        printed = True
+    elif printed and score % 100 == 1:
+        printed = False
+
+    if RENDER:
+        render()
+
 
 def advance_arenas_by_one_frame():
     global active_arenas
@@ -114,23 +114,18 @@ def advance_arenas_by_one_frame():
             active_arenas -= 1
     calc_needed_for -= 1
 
-def find_active_arena(current_arena, gen_running):
-    searched = 0
+
+def find_active_arena():
+    for i, arena in enumerate(arenas):
+        if arena.running:
+            return i
+    return 0
+
+
+def render():
+    current_arena = find_active_arena()
     current_arena %= len(arenas)
-    while (not arenas[current_arena].running) and gen_running:
-        current_arena += 1
-        current_arena %= len(arenas)
-        searched += 1
-        if searched >= len(arenas):
-            gen_running = False
-    return current_arena, gen_running
-
-
-
-
-
-def render(current_arena):
-    current_arena %= len(arenas)
+    find_active_arena()
     game_window.fill((255, 100, 0))
     score_label = myfont.render("Score: {} ".format(floor_maker.get_score()), 1, (0, 0, 0))
     if not PLAYER_CONTROL:
