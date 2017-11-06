@@ -12,6 +12,7 @@ arenas = list()
 generation = 0
 dead_arenas = list()
 floor_maker = None
+active_arenas = -1
 
 if RENDER:
     import pygame
@@ -42,16 +43,21 @@ def main():
     floor_maker = arenas[0].floor_maker
 
     while program_active:
+        del dead_arenas
         dead_arenas = []
         print("\nStarting generation {}".format(generation))
 
+        # Show inital scores for generations to account for starting scores % 100 != 0
+        score = floor_maker.get_score()
+        print("Current score is ", score, ", ", len(arenas), " active arenas")
+        printed = True
 
-
+        # initialize/reset local scores to track current generation
         active_arenas = len(arenas)
         gen_running = True
-        printed = False
         start_time = time()
-        while gen_running:
+
+        while active_arenas > 0:
             floor_maker.next_frame()
 
             score = floor_maker.get_score()
@@ -61,28 +67,6 @@ def main():
                 printed = True
             elif printed and score % 100 == 1:
                 printed = False
-
-            calc_needed = False
-            for i in range(6):
-                if floor_maker.floor[1+i] == 0.0:
-                    calc_needed = True
-
-
-            for arena in arenas:
-                if arena.running:
-                    arena.next_frame()
-                    if calc_needed:
-                        arena.apply_network()
-                else:
-                    dead_arenas.append(arena)
-                    arenas.remove(arena)
-                    active_arenas -= 1
-
-            gen_running = active_arenas > 0
-
-            if score > 15000:
-                gen_running = False
-                print("Score of 15000 reached! GG")
 
             if RENDER:
                 current_arena, gen_running = find_active_arena(current_arena, gen_running)
@@ -109,6 +93,26 @@ def main():
     pygame.quit()
     quit()
 
+def advance_arenas_by_one_frame():
+    global active_arenas
+
+    # if there are no holes in jumping distance of the agents,
+    # it's not necessary to calculate their inputs
+    calc_needed_for = 0
+    for i in range(6):
+        if floor_maker.floor[1 + i] == 0.0:
+            calc_needed_for = 6
+
+    for arena in arenas:
+        if arena.running:
+            arena.next_frame()
+            if calc_needed_for < 3:
+                arena.apply_network()
+        else:
+            dead_arenas.append(arena)
+            arenas.remove(arena)
+            active_arenas -= 1
+    calc_needed_for -= 1
 
 def find_active_arena(current_arena, gen_running):
     searched = 0
