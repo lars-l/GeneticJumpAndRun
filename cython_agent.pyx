@@ -18,30 +18,27 @@ cdef class Agent:
         self.y = START_Y
         self.velocity = 0
         self.in_air = False
-        self.can_jump = True
 
     cpdef update(self):
         if self.in_air:  # currently jumping
-            self.velocity -= GRAVITY
+            self.velocity -= GRAVITY 
             self.y -= self.velocity
-            if self.y >= START_Y:
+            if self.y >= START_Y: # agent hit the ground
                 self.y = START_Y
                 self.velocity = 0
                 self.in_air = False
-                self.can_jump = True
 
     cpdef jump(self):
-        if self.can_jump:
-            self.velocity = JUMP_VELOCITY
-            self.in_air = True
-            self.can_jump = False
+        self.velocity = JUMP_VELOCITY
+        self.in_air = True
+        self.can_jump = False
 
     def terminate_early(self):
         self.velocity = min(self.velocity, EARLY_TERMINATION_VELOCITY)
         self.can_jump = False
 
     cpdef void apply(self, bint jump_pressed):
-        if jump_pressed and self.jumps > 0:
+        if jump_pressed and not self.in_air:
             self.jump()
         elif self.in_air and not jump_pressed:
             self.terminate_early()

@@ -12,10 +12,9 @@ from system_settings import SEG_LEN, SEG_AMOUNT,  OFFSET_DELTA, MAX_DIFF, MIN_DI
 cdef class FloorGenerator:
     cdef int current_gap
     cdef public int score
-    cdef public double diff
-    cdef double offset
+    cdef public double diff, offset
     cdef object rng
-    cdef readonly object floor
+    cdef public object floor
 
     def __init__(self, starting_diff=None, seed=None):
         self.score = starting_diff if starting_diff is not None else 0
@@ -43,7 +42,7 @@ cdef class FloorGenerator:
         return self.score
 
     cpdef next_frame(self):
-        if self.offset >= SEG_LEN:
+        if self.offset >= SEG_LEN-OFFSET_DELTA:
             self.score += 1
             self.diff = calc_difficulty(self.score)
             self.floor.pop(0)
@@ -61,13 +60,12 @@ cdef class FloorGenerator:
     cpdef bint agent_died(self, agent):
         if agent.y < START_Y:
             return False
-        # Agents x coordinate is fixed, only y moves. START_X is this fixed position.
+        # Agents x coordinate is print(self.floor_maker.agent_died(self.agent))fixed, only y moves. START_X is this fixed position.
         # Check if right most OR left most corner is still on solid ground
 
         # Rightmost and leftmost corner are in segment 2
         if self.offset < 5:
             return self.floor[2] == 0
-
 
         # both corners in segment 3
         if self.offset >= 15:

@@ -1,5 +1,6 @@
 #!python
 #cython: language_level=3, boundscheck=False, wraparound=False, optimize.unpack_method_calls = True
+#define NUMPY_NO_DEPRECATED_API NPY_1_7_API_VERSION
 
 # LIBRARY IMPORTS
 
@@ -32,7 +33,7 @@ cdef class NeuralNetwork:
         self.biases2 = 50 * np.random.randn(OUTPUT_NEURONS, 1)
 
 
-        self.weights0 = 50 * np.random.randn(HIDDEN_NEURONS, SEGMENT_NEURONS)
+        self.weights0 = 50 * np.random.randn(HIDDEN_NEURONS, INPUT_NEURONS)
         self.weights1 = 50 * np.random.randn(HIDDEN_NEURONS_2, HIDDEN_NEURONS)
         self.weights2 = 50 * np.random.randn(OUTPUT_NEURONS, HIDDEN_NEURONS_2)
 
@@ -45,7 +46,8 @@ cdef class NeuralNetwork:
         a = relu(np.dot(self.weights0, a) + self.biases0)
         a = relu(np.dot(self.weights1, a) + self.biases1)
         a = relu(np.dot(self.weights2, a) + self.biases2)
-        return a[0][0] >= 0
+        #print(a[0][0])
+        return a[0][0] >= 3
 
 def relu(x):
     return np.maximum(x, 0)

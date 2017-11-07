@@ -8,20 +8,15 @@
 from system_settings import SEG_LEN, MAX_JUMPS, JUMP_VELOCITY, MAX_HEIGHT, START_Y, EARLY_TERMINATION_VELOCITY
 from cython_agent import Agent
 
+from cython_neural_network import NeuralNetwork
 
 class Arena:
     def __init__(self, floor_maker, neural_network=None):
         self.floor_maker = floor_maker
-        self.offset = 0
         self.agent = Agent()
         self.running = True
         self.fitness = 0
-        self.jump_penalty = 0
-        self.neural_network = neural_network
-
-    def draw(self, game_window):
-        self.floor_maker.draw(game_window)
-        self.agent.draw(game_window)
+        self.neural_network = neural_network if neural_network is not None else NeuralNetwork()
 
     def next_frame(self):
         self.agent.update()
@@ -43,13 +38,12 @@ class Arena:
     def calculate_meta_neurons(self):
         neurons = []
         neurons.append(float(abs(self.agent.y-START_Y)/MAX_HEIGHT))
-        neurons.append(float(self.offset/SEG_LEN))
+        neurons.append(float(self.floor_maker.offset/SEG_LEN))
         neurons.append(float(self.agent.velocity/JUMP_VELOCITY))
-
         return neurons
 
     def calculate_fitness(self):
-        return self.floor_maker.get_score() - self.jump_penalty
+        return self.floor_maker.get_score()
 
     def set_agent(self, agent):
         self.agent = agent
