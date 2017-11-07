@@ -1,9 +1,18 @@
+# LIBRARY IMPORTS
+
+# Standard Library imports:
+import copy
+
+# External Imports:
 from numpy.random import random
 import numpy as np
+
+# Internal Imports:
 from arena import Arena
 from cython_neural_network import NeuralNetwork
 from system_settings import INPUT_NEURONS, HIDDEN_NEURONS, OUTPUT_NEURONS, ARENAS
-import copy
+
+
 BIASES = OUTPUT_NEURONS + HIDDEN_NEURONS
 WEIGHTS = INPUT_NEURONS * HIDDEN_NEURONS + HIDDEN_NEURONS * OUTPUT_NEURONS
 MUT_SPOTS = BIASES + WEIGHTS

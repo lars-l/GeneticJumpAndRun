@@ -1,9 +1,17 @@
+# LIBRARY IMPORTS
+
+# Standard Library imports:
 import pathlib
 import pickle
+
+# External Imports:
+
+# Internal Imports:
 from system_settings import ARENAS,  DISREGARD_SAVE, GENERATION_TO_LOAD
 from arena import Arena
 from cython_floor_gen import FloorGenerator
 from cython_neural_network import NeuralNetwork
+
 
 
 def save_generation(arenas, generation, to_folder=None):

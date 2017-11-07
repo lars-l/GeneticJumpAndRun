@@ -1,3 +1,10 @@
+# LIBRARY IMPORTS
+
+# Standard Library imports:
+
+# External Imports:
+
+# Internal Imports:
 from system_settings import SEG_LEN, MAX_JUMPS, JUMP_VELOCITY, MAX_HEIGHT, START_Y, EARLY_TERMINATION_VELOCITY
 from cython_agent import Agent
 
@@ -29,21 +36,16 @@ class Arena:
         if self.agent.in_air and self.agent.velocity <= EARLY_TERMINATION_VELOCITY:
             return
         else:
-            inp = self.calculate_input_neurons()
-            jump = self.neural_network.calculate_output_neurons(self.floor_maker.get_segment_neurons(), inp)
+            inp = self.calculate_meta_neurons() + self.floor_maker.get_segment_neurons()
+            jump = self.neural_network.calculate_output_neurons(inp)
             self.agent.apply(jump)
 
-    def calculate_input_neurons(self):
-        neurons = list()
-
+    def calculate_meta_neurons(self):
+        neurons = []
         neurons.append(float(abs(self.agent.y-START_Y)/MAX_HEIGHT))
         neurons.append(float(self.offset/SEG_LEN))
         neurons.append(float(self.agent.velocity/JUMP_VELOCITY))
-        neurons.append(float(self.agent.jumps/MAX_JUMPS))
-        #neurons.extend(self.floor_maker.floor[2:])
-        #for x in self.floor_maker.floor[2:]:
-        #    neurons.append(float(x))
-        #print("neurons: ", len(neurons))
+
         return neurons
 
     def calculate_fitness(self):

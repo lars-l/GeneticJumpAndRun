@@ -1,7 +1,13 @@
-from system_settings import SEG_LEN, SEG_AMOUNT,  OFFSET_DELTA, MAX_DIFF, MIN_DIFF, START_Y, RENDER, SEGMENT_NEURONS
+# LIBRARY IMPORTS
+
+# Standard Library imports:
 from random import random, Random
-import pygame
-pygame.init()
+
+# External Imports:
+
+# Internal Imports:
+from system_settings import SEG_LEN, SEG_AMOUNT,  OFFSET_DELTA, MAX_DIFF, MIN_DIFF, START_Y, RENDER, SEGMENT_NEURONS
+
 
 cdef class FloorGenerator:
     cdef int current_gap
@@ -51,13 +57,6 @@ cdef class FloorGenerator:
         else:
             self.offset += OFFSET_DELTA
 
-
-
-
-    def draw(self, game_window):
-        for i, x in enumerate(self.floor):
-            if x:
-                pygame.draw.line(game_window, (0, 0, 0), (i * SEG_LEN - self.offset, 200), ((i + 1) * SEG_LEN - self.offset - 1, 200), 2)
 
     cpdef bint agent_died(self, agent):
         if agent.y < START_Y:

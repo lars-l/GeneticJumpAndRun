@@ -51,8 +51,8 @@ NUMBER_OF_LAYERS = 3
 # Number of different stimuli each segment should check for. Currently: enemies, bullets
 # different, non visual inputs.
 # Currently:
-# self.y, arena.offset, self.velocity, self.jumps 1 per each segment (except for seg 0 and 1)
-META_NEURONS = 4
+# self.y, arena.offset, self.velocity, 1 per each segment (except for seg 0 and 1)
+META_NEURONS = 3
 SEGMENT_NEURONS = SEG_AMOUNT - 2
 
 INPUT_NEURONS = META_NEURONS + SEGMENT_NEURONS
