@@ -36,46 +36,26 @@ def save_generation(arenas, generation, to_folder=None):
 
 
 def load_generation(folder_number=None):
+
     arenas = []
-    if folder_number is not None:
-        for i in range(ARENAS//10000):
-            a = open("generation{}/arenas{}.pickle".format(folder_number, i), "rb")
-            arenas += pickle.load(a)
-            a.close()
-        g = open("generation{}/gen.pickle".format(folder_number), "rb")
-    else:
-        for i in range(ARENAS//10000):
-            a = open("last_save/arenas{}.pickle".format(i), "rb")
-            arenas += pickle.load(a)
-            a.close()
-        g = open("last_save/gen.pickle", "rb")
-    generation = pickle.load(g)-1
+
+    folder = "last_save/" if folder_number is None else "generation{}/".format(folder_number)
+
+    print("Trying to load generation from folder " + folder)
+
+    for i in range(ARENAS//10000):
+        a = open(folder + "arenas{}.pickle".format(i), "rb")
+        arenas += pickle.load(a)
+        a.close()
+
+    g = open(folder + "gen.pickle", "rb")
+    generation = pickle.load(g)
     g.close()
-    for arena in arenas:
-        arena.floor_maker = FloorGenerator(starting_diff=2350)
+
+    print("Successfully loaded generation from folder " + folder)
     return arenas, generation
 
-
-def init_arenas():
-    if not DISREGARD_SAVE:
-        try:
-            if GENERATION_TO_LOAD is None:
-                print("Trying to load generation from folder 'last_save'")
-            else:
-                print("Trying to load generation from folder generation{}".format(GENERATION_TO_LOAD))
-            arenas, generation = load_generation(GENERATION_TO_LOAD)
-            if GENERATION_TO_LOAD is None:
-                print("Successfully loaded generation from folder 'last_save'")
-            else:
-                print("Successfully loaded generation from folder generation{}".format(GENERATION_TO_LOAD))
-
-            return arenas, generation, arenas[0].floor_maker
-        except IOError:
-            if GENERATION_TO_LOAD is None:
-                print("Failed to load generation from folder 'last_save'")
-            else:
-                print("Failed to load generation from folder generation{}".format(GENERATION_TO_LOAD))
-
+def restart_arenas():
     print("Starting from scratch...")
     generation = 0
 
@@ -84,6 +64,18 @@ def init_arenas():
     for _ in range(ARENAS):
         arenas.append(Arena(floor_maker, NeuralNetwork()))
     return arenas, generation, floor_maker
+
+def init_arenas() :
+    if DISREGARD_SAVE:
+        return restart_arenas()
+    else:
+        try:
+            arenas, generation = load_generation(GENERATION_TO_LOAD)
+            return arenas, generation, arenas[0].floor_maker
+        except IOError as ioerr:
+            print("IOError during loading: ", ioerr)
+            return restart_arenas()
+
 
 
 
