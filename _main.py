@@ -41,7 +41,7 @@ def main():
         # Perform one generation
         while active_arenas > 0:
             floor_maker.next_frame()
-            advance_arenas_one_frame()
+            active_arenas = advance_arenas_one_frame()
             show_current_progress()
 
         print("generation took ", (time()-start_time))
@@ -68,8 +68,7 @@ def show_current_progress() -> None:
     global printed, arenas
     score = floor_maker.get_score()
 
-    #if not printed and score % 100 == 0:
-    if True:
+    if not printed and score % 100 == 0:
         print("Current score is ", score, ", ", len(arenas), " active arenas")
         printed = True
     elif printed and score % 100 == 1:
@@ -82,9 +81,9 @@ def advance_arenas_one_frame():
     # if there are no holes in jumping distance of the agents,
     # it's not necessary to calculate their inputs
     
-    #for i in range(6):
-     #   if floor_maker.floor[1 + i] == 0.0:
-      #      calc_needed_for = 6
+    for i in range(6):
+        if floor_maker.floor[1 + i] == 0.0:
+            calc_needed_for = 6
     
     for arena in arenas:
         if arena.running:
@@ -96,10 +95,9 @@ def advance_arenas_one_frame():
             dead_arenas.append(arena)
             arenas.remove(arena)
             active_arenas -= 1
-    #calc_needed_for -= 1
-    # TODO readd calc_needed_for
-
-
+    calc_needed_for -= 1
+    return active_arenas
+    
 if __name__ == "__main__":
     try:
         main()
