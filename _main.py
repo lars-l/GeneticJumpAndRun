@@ -68,8 +68,7 @@ def show_current_progress() -> None:
     global printed
     score = floor_maker.get_score()
 
-    #if not printed and score % 100 == 0:
-    if True:
+    if not printed and score % 100 == 0:
         print("Current score is ", score, ", ", len(arenas), " active arenas")
         printed = True
     elif printed and score % 100 == 1:
